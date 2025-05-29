@@ -2,7 +2,7 @@ import { doc, getDoc } from "firebase/firestore";
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import { db } from "./firebase";
-import { ProductProps } from "@/type";
+import { ProductProps } from "../types";
 
 interface CartProduct extends ProductProps {
   quantity: number;
