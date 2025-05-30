@@ -1,27 +1,19 @@
 "use client";
 import { useEffect, useState } from "react";
 import {
-  
+  Menu,
   MenuButton,
   MenuItem,
   MenuItems,
   Transition,
 } from "@headlessui/react";
 import { FaChevronDown } from "react-icons/fa";
-import { FiShoppingBag, FiStar, FiUser } from "react-icons/fi";
-import { IoClose, IoSearchOutline } from "react-icons/io5";
+import { FiShoppingBag, FiStar,  } from "react-icons/fi";
 import {
-  Activity,
-  ArrowUpRight,
-  CircleUser,
-  CreditCard,
-  DollarSign,
+
   LogIn,
-  Menu,
-  Microscope,
-  Package2,
-  Search,
-  Users,
+ 
+ 
 } from "lucide-react";
 import Container from "./Container";
 import { config } from "@/utils/config";
@@ -44,8 +36,8 @@ const navLinks = [
   { title: "Shop", link: "/product" },
   { title: "Cart", link: "/cart" },
   { title: "Orders", link: "/orders" },
-  { title: "My Account", link: "/profile" },
-  { title: "Blog", link: "/blog" },
+ 
+ 
 ];
 
 const Header = () => {
@@ -136,7 +128,7 @@ const Header = () => {
               size="icon"
               className="shrink-0 md:hidden"
             >
-              <Menu className="h-5 w-5" />
+              {/* <Menu className="h-5 w-5" /> */}
               <span className="sr-only">Toggle navigation menu</span>
             </Button>
           </SheetTrigger>
