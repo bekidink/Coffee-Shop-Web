@@ -1,25 +1,24 @@
 import { Layers } from 'lucide-react'
 import React from 'react'
 import LargeCard from './LargeCard'
-import { calculateSalesForRange } from '@/lib/generateSaleRange'
 
 const LargeCards = ({sales,orders}) => {
-    const totalSales=sales.reduce((acc,item)=>acc+item.total,0)
+    const totalSales=sales?.reduce((acc,item)=>acc+item.total,0)
     const today=new Date()
     const thisWeekStart=new Date(
         today.getFullYear(),today.getMonth(),
         today.getDate()-today.getDay()
     )
     const thisMonthStart=new Date(today.getFullYear(),today.getMonth(),1)
-    const todaySales=sales.filter((sale)=>{
+    const todaySales=sales?.filter((sale)=>{
         const saleDate=new Date(sale.createdAt)
         return saleDate.toDateString()===today.toDateString()
     }).reduce((acc,sale)=>acc + sale.total,0)
-    const thisWeekSales=sales.filter((sale)=>{
+    const thisWeekSales=sales?.filter((sale)=>{
         const saleDate=new Date(sale.createdAt)
         return saleDate>=thisWeekStart && saleDate<=today
     }).reduce((acc,sale)=>acc+sale.total,0)
-    const thisMonthSales=sales.filter((sale)=>{
+    const thisMonthSales=sales?.filter((sale)=>{
         const saleDate=new Date(sale.createdAt)
         return saleDate >=thisMonthStart && saleDate<=today
     }).reduce((acc,sale)=>acc +sale.total,0)

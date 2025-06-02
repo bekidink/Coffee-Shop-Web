@@ -27,7 +27,7 @@ const page = async () => {
   return (
     <div>
       <Heading title={"Dashboard Overview"} />
-      <LargeCards sales={sales} orders={orders} />
+      {sales && <LargeCards sales={sales} orders={orders} />}
       {orders && <SmallCards orders={orders} />}
       <DashboardCharts sales={sales} />
       {/* <CustomDataTable/> */}

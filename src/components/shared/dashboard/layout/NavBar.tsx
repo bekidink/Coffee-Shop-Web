@@ -54,110 +54,106 @@ export default function Navbar({role}:{role:UserRole}) {
     await signOut();
     router.push("/");
   }
-  const roles={
-    USER:[
+  const roles = {
+    USER: [
       {
-        name:"Dashboard",
-        path:"/dashboard",
-        icon:Home
+        name: "Dashboard",
+        path: "/dashboard",
+        icon: Home,
       },
       {
-        name:"My Appointments",
-        path:"/dashboard/user/appointments",
-        icon:AlarmClock
+        name: "Promotions",
+        path: "/dashboard/user/appointments",
+        icon: AlarmClock,
       },
       {
-        name:"Inbox",
-        path:"/dashboard/user/inbox",
-        icon:Mail
+        name: "Addresses",
+        path: "/dashboard/user/inbox",
+        icon: Mail,
       },
-      // {
-      //   name:"Settings",
-      //   path:"/dashboard/user/settings",
-      //   icon:Home
-      // },
+      {
+        name: "orders",
+        path: "/dashboard/user/settings",
+        icon: Home,
+      },
+      {
+        name: "Notifications",
+        path: "/dashboard/user/settings",
+        icon: Home,
+      },
     ],
-    ADMIN:[
+    ADMIN: [
       {
-        name:"Dashboard",
-        path:"/dashboard",
-        icon:Home
+        name: "Dashboard",
+        path: "/dashboard",
+        icon: Home,
       },
       {
-        name:"Services",
-        path:"/dashboard/services",
-        icon:Users
+        name: "Promotion",
+        path: "/dashboard/promotions",
+        icon: Users,
       },
       {
-        name:"Specialities",
-        path:"/dashboard/specialities",
-        icon:Users
+        name: "Categories",
+        path: "/dashboard/categories",
+        icon: Users,
       },
       {
-        name:"Symptoms",
-        path:"/dashboard/symptoms",
-        icon:Users
+        name: "Products",
+        path: "/dashboard/products",
+        icon: Users,
       },
       {
-        name:"Doctors",
-        path:"/dashboard/doctors",
-        icon:Users
+        name: "Users",
+        path: "/dashboard/users",
+        icon: Users,
       },
       {
-        name:"Patients",
-        path:"/dashboard/patients",
-        icon:Users
+        name: "Shops",
+        path: "/dashboard/patients",
+        icon: Users,
       },
-      // {
-      //   name:"Appointments",
-      //   path:"/dashboard/appointments",
-      //   icon:Grid2X2
-      // },
-      
+      {
+        name: "Orders",
+        path: "/dashboard/appointments",
+        icon: Grid2X2,
+      },
+  
       // {
       //   name:"Settings",
       //   path:"/dashboard/settings",
       //   icon:Settings
       // },
-      
-    
     ],
-    DOCTOR:[
+    DOCTOR: [
       {
-        name:"Dashboard",
-        path:"/dashboard",
-        icon:Home
+        name: "Dashboard",
+        path: "/dashboard",
+        icon: Home,
       },
       {
-        name:"Appointments",
-        path:"/dashboard/doctor/appointments",
-        icon:AlarmClock
+        name: "Inventory",
+        path: "/dashboard/doctor/appointments",
+        icon: AlarmClock,
       },
       {
-        name:"Patients",
-        path:"/dashboard/doctor/patients",
-        icon:Users
+        name: "Orders",
+        path: "/dashboard/doctor/patients",
+        icon: Users,
       },
-     
+  
       {
-        name:"Inbox",
-        path:"/dashboard/doctor/inbox",
-        icon:Mail
-      },
-      {
-        name:"Profile",
-        path:`/dashboard/doctor/profile/${user?.id}`,
-        icon:User2
+        name: "Products",
+        path: "/dashboard/doctor/inbox",
+        icon: Mail,
       },
       {
-        name:"Settings",
-        path:"/dashboard/doctor/settings",
-        icon:Settings
+        name: "promotions",
+        path: `/dashboard/doctor/profile/${user?.id}`,
+        icon: User2,
       },
-      
-    
     ],
-  }
+  };
   let sideBarLinks=role? roles[role] : []
   return (
     <header className="flex h-14 items-center gap-4 border-b bg-muted/40 px-4 lg:h-[60px] lg:px-6">

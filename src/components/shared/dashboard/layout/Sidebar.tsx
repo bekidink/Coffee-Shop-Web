@@ -16,110 +16,106 @@ const session=useSession()
 const user=session.data?.user
 const pathname=usePathname()
 
-const roles={
-  USER:[
+const roles = {
+  USER: [
     {
-      name:"Dashboard",
-      path:"/dashboard",
-      icon:Home
+      name: "Dashboard",
+      path: "/dashboard",
+      icon: Home,
     },
     {
-      name:"Categories",
-      path:"/dashboard/user/appointments",
-      icon:AlarmClock
+      name: "Promotions",
+      path: "/dashboard/user/appointments",
+      icon: AlarmClock,
     },
     {
-      name:"Inbox",
-      path:"/dashboard/user/inbox",
-      icon:Mail
+      name: "Addresses",
+      path: "/dashboard/user/inbox",
+      icon: Mail,
     },
     {
-      name:"Settings",
-      path:"/dashboard/user/settings",
-      icon:Home
+      name: "orders",
+      path: "/dashboard/user/settings",
+      icon: Home,
+    },
+    {
+      name: "Notifications",
+      path: "/dashboard/user/settings",
+      icon: Home,
     },
   ],
-  ADMIN:[
+  ADMIN: [
     {
-      name:"Dashboard",
-      path:"/dashboard",
-      icon:Home
+      name: "Dashboard",
+      path: "/dashboard",
+      icon: Home,
     },
     {
-      name:"Promotion",
-      path:"/dashboard/promotions",
-      icon:Users
+      name: "Promotion",
+      path: "/dashboard/promotions",
+      icon: Users,
     },
     {
-      name:"Categories",
-      path:"/dashboard/categories",
-      icon:Users
+      name: "Categories",
+      path: "/dashboard/categories",
+      icon: Users,
     },
     {
-      name:"Products",
-      path:"/dashboard/products",
-      icon:Users
+      name: "Products",
+      path: "/dashboard/products",
+      icon: Users,
     },
     {
-      name:"Users",
-      path:"/dashboard/users",
-      icon:Users
+      name: "Users",
+      path: "/dashboard/users",
+      icon: Users,
     },
     {
-      name:"Patients",
-      path:"/dashboard/patients",
-      icon:Users
+      name: "Shops",
+      path: "/dashboard/patients",
+      icon: Users,
     },
-    // {
-    //   name:"Appointments",
-    //   path:"/dashboard/appointments",
-    //   icon:Grid2X2
-    // },
-    
+    {
+      name: "Orders",
+      path: "/dashboard/appointments",
+      icon: Grid2X2,
+    },
+
     // {
     //   name:"Settings",
     //   path:"/dashboard/settings",
     //   icon:Settings
     // },
-    
-  
   ],
-  DOCTOR:[
+  DOCTOR: [
     {
-      name:"Dashboard",
-      path:"/dashboard",
-      icon:Home
+      name: "Dashboard",
+      path: "/dashboard",
+      icon: Home,
     },
     {
-      name:"Appointments",
-      path:"/dashboard/doctor/appointments",
-      icon:AlarmClock
+      name: "Inventory",
+      path: "/dashboard/doctor/appointments",
+      icon: AlarmClock,
     },
     {
-      name:"Patients",
-      path:"/dashboard/doctor/patients",
-      icon:Users
+      name: "Orders",
+      path: "/dashboard/doctor/patients",
+      icon: Users,
     },
-   
+
     {
-      name:"Inbox",
-      path:"/dashboard/doctor/inbox",
-      icon:Mail
-    },
-    {
-      name:"Profile",
-      path:`/dashboard/doctor/profile/${user?.id}`,
-      icon:User2
+      name: "Products",
+      path: "/dashboard/doctor/inbox",
+      icon: Mail,
     },
     {
-      name:"Settings",
-      path:"/dashboard/doctor/settings",
-      icon:Settings
+      name: "promotions",
+      path: `/dashboard/doctor/profile/${user?.id}`,
+      icon: User2,
     },
-    
-  
   ],
-}
+};
 const router = useRouter();
 let sideBarLinks=role? roles[role] : []
 async function handleLogout() {
@@ -132,7 +128,7 @@ return (
           <div className="flex h-14 items-center border-b px-4 lg:h-[60px] lg:px-6">
             <Link href="/" className="flex items-center gap-2 font-semibold">
               <Package2 className="h-6 w-6" />
-              <span className="">EthioMedic</span>
+              <span className="">Ethio Coffee Shop</span>
             </Link>
             <Button variant="outline" size="icon" className="ml-auto h-8 w-8">
               <Bell className="h-4 w-4" />
