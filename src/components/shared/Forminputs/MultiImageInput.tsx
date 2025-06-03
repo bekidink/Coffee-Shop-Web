@@ -1,9 +1,9 @@
+import { OurFileRouter } from "@/app/api/uploadthing/core";
 import { UploadDropzone } from "@/lib/uploadthing";
 import { Pencil, XCircle } from "lucide-react";
 import Image from "next/image";
 import React from "react";
 import toast from "react-hot-toast";
-import { UploadFileResponse } from "uploadthing/client";
 
 interface MultiImageInputProps {
   label: string;
@@ -58,7 +58,7 @@ const MultiImageInput: React.FC<MultiImageInputProps> = ({
       ) : (
         <UploadDropzone
           endpoint={endpoint}
-          onClientUploadComplete={(res?: UploadFileResponse[]) => {
+          onClientUploadComplete={(res) => {
             if (res) {
               const urls = res.map((item) => item.url);
               setImageUrls(urls);

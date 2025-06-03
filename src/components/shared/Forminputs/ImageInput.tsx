@@ -4,13 +4,21 @@ import Image from "next/image";
 import React from "react";
 import toast from "react-hot-toast";
 
-export default function ImageInput({
+interface ImageInputProps {
+  label: string;
+  imageUrl?: string;
+  setImageUrl: (url: string) => void;
+  className?: string;
+  endpoint?: string;
+}
+
+const ImageInput: React.FC<ImageInputProps> = ({
   label,
   imageUrl = "",
   setImageUrl,
   className = "col-span-full",
   endpoint = "imageUploader",
-}) {
+}) => {
   return (
     <div className={className}>
       <div className="flex justify-between items-center mb-4">
@@ -24,7 +32,7 @@ export default function ImageInput({
           <button
             onClick={() => setImageUrl("")}
             type="button"
-            className="flex space-x-2  bg-slate-900 rounded-md shadow text-slate-50  py-2 px-4"
+            className="flex space-x-2 bg-slate-900 rounded-md shadow text-slate-50 py-2 px-4"
           >
             <Pencil className="w-5 h-5" />
             <span>Change Image</span>
@@ -43,19 +51,21 @@ export default function ImageInput({
         <UploadDropzone
           endpoint={endpoint}
           onClientUploadComplete={(res) => {
-            setImageUrl(res[0].url);
-            // Do something with the response
-            toast.success("Image Upload complete")
-            console.log("Files: ", res);
-            console.log("Upload Completed");
+            if (res && res[0]?.url) {
+              setImageUrl(res[0].url);
+              toast.success("Image Upload complete");
+              console.log("Files: ", res);
+              console.log("Upload Completed");
+            }
           }}
-          onUploadError={(error) => {
-            // Do something with the error.
-            toast.error("Image Upload Failed,Try Again")
+          onUploadError={(error: Error) => {
+            toast.error("Image Upload Failed, Try Again");
             console.log(`ERROR! ${error.message}`);
           }}
         />
       )}
     </div>
   );
-}
+};
+
+export default ImageInput;
