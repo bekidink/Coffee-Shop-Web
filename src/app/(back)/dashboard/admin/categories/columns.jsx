@@ -1,10 +1,10 @@
 "use client"
 
 import { Checkbox } from "@/components/ui/checkbox"
-import SortableColumn from "@/components/datatablecolumns/SortableColumn"
-import ImageColumn from "@/components/datatablecolumns/ImageColumn"
-import DateColumn from "@/components/datatablecolumns/DateColumn"
-import ActionColumn from "@/components/datatablecolumns/ActionColumn"
+import SortableColumn from "@/components/shared/datatablecolumns/SortableColumn"
+import ImageColumn from "@/components/shared/datatablecolumns/ImageColumn"
+import DateColumn from "@/components/shared/datatablecolumns/DateColumn"
+import ActionColumn from "@/components/shared/datatablecolumns/ActionColumn"
 
 
 export const columns = [
