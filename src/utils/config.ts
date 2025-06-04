@@ -6,7 +6,8 @@ const checkConfig = (server: string): Config | {} => {
   switch (server) {
     case "production":
       config = {
-        baseUrl: "https://ex-server-3dmm.onrender.com/api/v1",
+        // baseUrl: "https://ex-server-3dmm.onrender.com/api/v1",
+        baseUrl: "http://localhost:8000",
       };
       break;
     case "local":

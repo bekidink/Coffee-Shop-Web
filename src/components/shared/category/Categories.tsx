@@ -45,7 +45,7 @@ const Categories = () => {
             className="w-full h-auto relative group overflow-hidden"
           >
             <img
-              src={item?.image}
+              src={item?.imageUrl}
               alt="categoryImage"
               className="w-full h-auto rounded-md group-hover:scale-110 duration-300"
             />

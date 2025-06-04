@@ -31,7 +31,7 @@ export const columns = [
         enableHiding: false,
       },
   {
-    accessorKey: "title",
+    accessorKey: "name",
     header: ({ column }) => (<SortableColumn column={column} title={'Title'}/>)
   },
   {
@@ -39,21 +39,21 @@ export const columns = [
     header: "Category Image",
     cell:({row})=>(<ImageColumn row={row} imageTitle={'imageUrl'}/>)
   },
-//   {
-//     accessorKey: "description",
-//     header: "Description",
-//     cell:({row})=>{
-//         const description=row.getValue('description')
-//         return <div className="line-clamp-1">
-//             {description}
-//         </div>
-//     }
-//   },
   {
-    accessorKey: "isActive",
-    header: "Active",
-   
+    accessorKey: "description",
+    header: "Description",
+    cell:({row})=>{
+        const description=row.getValue('description')
+        return <div className="line-clamp-1">
+            {description}
+        </div>
+    }
   },
+  // {
+  //   accessorKey: "isActive",
+  //   header: "Active",
+   
+  // },
   {
     accessorKey: "createdAt",
     header: "Date Created",
@@ -62,7 +62,7 @@ export const columns = [
   {id:"actions",
   cell: ({ row }) => {
     const category=row.original
-    return (<ActionColumn row={row} title={'Category'} endpoint={`categories/${category.id}`} editEndpoint={`categories/update/${category.id}`}/>)
+    return (<ActionColumn row={row} title={'Category'} endpoint={`categories/${category.id}`} editEndpoint={`admin/categories/update/${category.id}`}/>)
   }
   },
   

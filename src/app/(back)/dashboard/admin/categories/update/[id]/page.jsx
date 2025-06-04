@@ -1,11 +1,11 @@
-"use client"
-import FormHeader from '@/components/backoffice/FormHeader'
-import NewCategoryForm from '@/components/backoffice/NewCategoryForm'
+
+import FormHeader from "@/components/shared/dashboard/layout/FormHeader";
+import NewCategoryForm from '@/components/shared/dashboard/categories/NewCategoryForm'
 import { getData } from '@/lib/getData'
 import React from 'react'
 
 const UpdateCategory = async({params:{id}}) => {
-  const category= await getData(`banners/${id}`)
+  const category= await getData(`categories/${id}`)
   return (
     <div>
     <FormHeader title={"Update Category"}/>

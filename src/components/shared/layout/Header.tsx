@@ -239,7 +239,7 @@ const Header = () => {
                       className="flex w-full items-center gap-2 rounded-lg py-2 px-3 data-[focus]:bg-white/20 tracking-wide"
                     >
                       <img
-                        src={item?.image}
+                        src={item?.imageUrl}
                         alt="categoryImage"
                         className="w-6 h-6 rounded-md"
                       />

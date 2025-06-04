@@ -21,15 +21,15 @@ const page = async () => {
   // if(role==="FARMER"){
   // return  <FarmerDashboard/>
   // }
-  if (role === "USER") {
+  if (role === "CUSTOMER") {
     return <UserDashboard />;
   }
   return (
     <div>
       <Heading title={"Dashboard Overview"} />
-      {sales && <LargeCards sales={sales} orders={orders} />}
+      {/* {sales && <LargeCards sales={sales} orders={orders} />}
       {orders && <SmallCards orders={orders} />}
-      <DashboardCharts sales={sales} />
+      <DashboardCharts sales={sales} /> */}
       {/* <CustomDataTable/> */}
     </div>
   );

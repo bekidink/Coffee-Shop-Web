@@ -10,7 +10,7 @@ export interface HighlightsType {
 
 export interface CategoryProps {
   id: string;
-  image: string;
+  imageUrl: string;
   name: string;
   base: string;
   description: string;
@@ -26,7 +26,7 @@ export interface ProductProps {
   name: string;
   isStock: boolean;
   isNew: boolean;
-  images: [string];
+  imageUrls: [string];
   discountedPrice: number;
   regularPrice: number;
   description: string;

@@ -3,7 +3,7 @@ import { UseFormRegister } from "react-hook-form";
 
 interface Option {
   id: string | number;
-  title: string;
+  name: string;
 }
 
 interface SelectInputProps {
@@ -41,7 +41,7 @@ const SelectInput: React.FC<SelectInputProps> = ({
         >
           {options.map((option, i) => (
             <option key={i} value={option.id}>
-              {option.title}
+              {option.name}
             </option>
           ))}
         </select>

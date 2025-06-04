@@ -62,7 +62,7 @@ const BannerCategories = () => {
           className="flex items-center gap-x-2 p-1 border border-gray-100 mr-1 flex-1 rounded-md hover:border-skyText hover:shadow-lg"
         >
           <img
-            src={item?.image}
+            src={item?.imageUrl}
             alt="categoryImage"
             className="w-10 h-10 rounded-full object-cover"
           />

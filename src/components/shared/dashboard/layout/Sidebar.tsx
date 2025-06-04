@@ -7,8 +7,9 @@ import { CardHeader, CardTitle, CardDescription, CardContent } from "@/component
 import { Card } from "flowbite-react";
 import { usePathname, useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
-import { UserRole } from "@prisma/client";
+
 import { signOut, useSession } from "next-auth/react";
+import { UserRole } from "@/types/next-auth";
 
 export default  function Sidebar({role}:{role:UserRole}) {
 //   const categories = (await getCategories()) || [];
@@ -44,7 +45,7 @@ const roles = {
       icon: Home,
     },
   ],
-  USER: [
+  CUSTOMER: [
     {
       name: "Dashboard",
       path: "/dashboard",
@@ -62,7 +63,7 @@ const roles = {
     },
     {
       name: "Products",
-      path: "/dashboard/products",
+      path: "/dashboard/admin/products",
       icon: Users,
     },
     {
@@ -87,7 +88,7 @@ const roles = {
     //   icon:Settings
     // },
   ],
-  DOCTOR: [
+  VENDOR: [
     {
       name: "Dashboard",
       path: "/dashboard",
@@ -137,7 +138,7 @@ return (
           </div>
           <div className="flex-1">
             <nav className="grid items-start px-2 text-sm font-medium lg:px-4">
-              {sideBarLinks.map((item,i)=>{
+              {sideBarLinks?.map((item,i)=>{
                 const Icon=item.icon
                 return (
                   <Link

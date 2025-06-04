@@ -16,7 +16,7 @@ const page = async() => {
           <DataTable
             data={categories}
             columns={columns}
-            filterKeys={["title"]}
+            filterKeys={["name"]}
           />
         )}
       </div>

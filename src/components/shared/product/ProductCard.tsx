@@ -46,7 +46,7 @@ const ProductCard = ({ item, setSearchText }: Props) => {
         </span>
         <img
           onClick={handleProduct}
-          src={item?.images[0]}
+          src={item?.imageUrls[0]}
           alt="productImage"
           className="w-full h-full rounded-md object-cover group-hover:scale-110 duration-300"
         />

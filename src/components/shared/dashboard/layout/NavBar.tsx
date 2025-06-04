@@ -42,7 +42,7 @@ import ModeToggle from "@/components/ModeToggle"
 import { useRouter } from "next/navigation"
 import { signOut, useSession } from "next-auth/react"
 import { generateInitials } from "@/lib/utils"
-import { UserRole } from "@prisma/client"
+import { UserRole } from "@/types/next-auth";
 
 
 export default function Navbar({role}:{role:UserRole}) {
@@ -55,7 +55,7 @@ export default function Navbar({role}:{role:UserRole}) {
     router.push("/");
   }
   const roles = {
-    USER: [
+    CUSTOMER: [
       {
         name: "Dashboard",
         path: "/dashboard",
@@ -118,14 +118,14 @@ export default function Navbar({role}:{role:UserRole}) {
         path: "/dashboard/appointments",
         icon: Grid2X2,
       },
-  
+
       // {
       //   name:"Settings",
       //   path:"/dashboard/settings",
       //   icon:Settings
       // },
     ],
-    DOCTOR: [
+    VENDOR: [
       {
         name: "Dashboard",
         path: "/dashboard",
@@ -141,7 +141,7 @@ export default function Navbar({role}:{role:UserRole}) {
         path: "/dashboard/doctor/patients",
         icon: Users,
       },
-  
+
       {
         name: "Products",
         path: "/dashboard/doctor/inbox",
@@ -177,7 +177,7 @@ export default function Navbar({role}:{role:UserRole}) {
             <Package2 className="h-6 w-6" />
             <span className="sr-only">Acme Inc</span>
           </Link>
-        {sideBarLinks.map((item:any,i:any)=>{
+        {sideBarLinks?.map((item:any,i:any)=>{
           const Icon=item.icon
           return (
             <Link

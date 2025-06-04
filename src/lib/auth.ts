@@ -1,13 +1,9 @@
-import { AuthOptions, NextAuthOptions } from "next-auth";
-import GoogleProvider from "next-auth/providers/google";
-import EmailProvider from "next-auth/providers/email";
-import type { Adapter } from "next-auth/adapters";
+// authOptions.ts
+import { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { compare } from "bcrypt";
 
 export const authOptions: NextAuthOptions = {
-  // Note: If you're using PrismaAdapter, you'll need to replace it with a custom adapter or remove it
-  // adapter: PrismaAdapter(prismaClient) as Adapter, // Remove or replace with a custom adapter
   secret: process.env.NEXTAUTH_SECRET,
   session: {
     strategy: "jwt",
@@ -34,46 +30,51 @@ export const authOptions: NextAuthOptions = {
           }
           console.log("Pass 1 checked");
 
-          // Fetch user from backend API instead of Prisma
-          const response = await fetch(
-            `${process.env.API_URL}/api/user/find?email=${encodeURIComponent(
-              credentials.email
-            )}`,
-            {
-              method: "GET",
-              headers: { "Content-Type": "application/json" },
-            }
-          );
+          // Call the login endpoint with POST request
+          const response = await fetch("http://localhost:8000/users/login", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              email: credentials.email,
+              password: credentials.password,
+            }),
+          });
 
-          const existingUser = await response.json();
+          const loginResponse = await response.json();
+          console.log("auth", loginResponse);
 
-          if (!response.ok || !existingUser) {
-            console.log("No user found");
-            throw { error: "No user found", status: 401 };
+          if (!response.ok || !loginResponse) {
+            console.log("Login failed");
+            throw { error: "Invalid credentials", status: 401 };
           }
 
           console.log("Pass 2 Checked");
-          console.log(existingUser);
+          console.log(loginResponse);
 
-          let passwordMatch: boolean = false;
-          // Check if password is correct
-          if (existingUser && existingUser.password) {
+          // Verify password (if backend doesn't handle it)
+          let passwordMatch = false;
+          if (loginResponse.password) {
             passwordMatch = await compare(
               credentials.password,
-              existingUser.password
+              loginResponse.password
             );
+          } else if (loginResponse.access_token) {
+            // If backend returns a JWT, assume authentication is handled
+            passwordMatch = true;
           }
+
           if (!passwordMatch) {
             console.log("Password incorrect");
             throw { error: "Password Incorrect", status: 401 };
           }
           console.log("Pass 3 Checked");
 
+          // Construct user object for NextAuth
           const user = {
-            id: existingUser.id,
-            name: existingUser.name,
-            email: existingUser.email,
-            role: existingUser.role,
+            id: loginResponse.id || loginResponse.user?.id,
+            name: loginResponse.name || loginResponse.user?.name,
+            email: loginResponse.email || loginResponse.user?.email,
+            role: loginResponse.role || loginResponse.user?.role,
           };
 
           console.log("User Compiled");
@@ -92,22 +93,34 @@ export const authOptions: NextAuthOptions = {
   ],
   callbacks: {
     async jwt({ token, user }) {
-      // Fetch user from backend API instead of Prisma
+      // If user is provided (initial sign-in), update token
+      if (user) {
+        return {
+          id: user.id,
+          name: user.name,
+          email: user.email,
+          role: user.role,
+          picture: user.image,
+        };
+      }
+      // For subsequent requests, fetch user data if needed
       const response = await fetch(
-        `${process.env.API_URL}/api/user/find-first?email=${encodeURIComponent(
+        `http://localhost:8000/users/by-email?email=${encodeURIComponent(
           token?.email ?? ""
         )}`,
         {
           method: "GET",
-          headers: { "Content-Type": "application/json" },
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token.access_token || ""}`,
+          },
         }
       );
 
       const dbUser = await response.json();
 
       if (!response.ok || !dbUser) {
-        token.id = user!.id;
-        return token;
+        return token; // Fallback to existing token
       }
 
       return {

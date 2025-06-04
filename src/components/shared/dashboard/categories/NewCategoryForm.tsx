@@ -12,10 +12,9 @@ import ToggleInput from "@/components/shared/Forminputs/ToggleInput";
 import { makePostRequest, makePutRequest } from "@/lib/apiRequest";
 
 interface FormData {
-  title: string;
+  name: string;
   description: string;
-  marketIds: string[];
-  isActive: boolean;
+  
   imageUrl?: string;
   id?: string;
 }
@@ -48,17 +47,16 @@ const NewCategoryForm: React.FC<NewCategoryFormProps> = ({
     control
   } = useForm<FormData>({
     defaultValues: {
-      isActive: true,
+      
       ...updateData,
     },
   });
 
   const router = useRouter();
   function redirect() {
-    router.push("/dashboard/categories");
+    router.push("/dashboard/admin/categories");
   }
 
-  const isActive = watch("isActive");
 
   async function onSubmit(data: FormData) {
     setLoading(true);
@@ -69,7 +67,7 @@ const NewCategoryForm: React.FC<NewCategoryFormProps> = ({
       data.id = categoryId;
       makePutRequest(
         setLoading,
-        `api/categories/${categoryId}`,
+        `categories/${categoryId}`,
         data,
         "Category",
         redirect
@@ -77,7 +75,7 @@ const NewCategoryForm: React.FC<NewCategoryFormProps> = ({
     } else {
       makePostRequest(
         setLoading,
-        "api/categories",
+        "categories",
         data,
         "Category",
         reset,
@@ -96,12 +94,12 @@ const NewCategoryForm: React.FC<NewCategoryFormProps> = ({
         <div className="grid gap-4 sm:grid-cols-2 sm:gap-6">
           <TextInput
             label="Category Title"
-            name="title"
+            name="name"
             errors={errors}
             register={register}
             className="w-full"
           />
-          <SelectInput
+          {/* <SelectInput
             label="Select Market"
             name="marketIds"
             register={register}
@@ -109,7 +107,7 @@ const NewCategoryForm: React.FC<NewCategoryFormProps> = ({
             className="w-full"
             options={markets}
             multiple={true}
-          />
+          /> */}
           <TextareaInput
             label="Category Description"
             name="description"
@@ -122,14 +120,14 @@ const NewCategoryForm: React.FC<NewCategoryFormProps> = ({
             setImageUrl={setImageUrl}
             endpoint="imageUploader"
           />
-          <ToggleInput
+          {/* <ToggleInput
             label="Publish your Category"
             name="isActive"
             trueTitle="Active"
             falseTitle="Draft"
             register={register}
             control={control}
-          />
+          /> */}
         </div>
         <SubmitButton
           isLoading={loading}

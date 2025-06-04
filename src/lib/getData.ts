@@ -1,7 +1,7 @@
 export async function getData(endpoint: string) {
     try {
       const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
-      const response = await fetch(`${baseUrl}/api/${endpoint}`, {
+      const response = await fetch(`${baseUrl}/${endpoint}`, {
         cache: "no-store",
       });
       const data = await response.json();

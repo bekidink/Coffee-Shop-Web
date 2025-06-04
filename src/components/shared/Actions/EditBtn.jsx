@@ -3,7 +3,7 @@ import Link from 'next/link'
 import React from 'react'
 
 export default function EditBtn({title,editEndpoint}) {
-    const baseUrl=process.env.NEXT_PUBLIC_BASE_URL
+    const baseUrl = process.env.NEXTAUTH_URL;
   return (
     <Link href={`${baseUrl}/dashboard/${editEndpoint}`} className='flex items-center text-lime-600'>
         <Pencil className='mr-2 w-4 h-4'/>

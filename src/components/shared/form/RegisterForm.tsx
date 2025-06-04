@@ -23,11 +23,11 @@ export default function RegisterForm({role}:any) {
   const [emailErr, setEmailErr] = useState("");
   async function onSubmit(data:any) {
     try {
-      data.plan=plan
+      
       setLoading(true);
       data.role=role
       const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
-      const response = await fetch(`${baseUrl}/api/users`, {
+      const response = await fetch(`${baseUrl}/users`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -41,12 +41,12 @@ export default function RegisterForm({role}:any) {
         setLoading(false);
         toast.success("User Created Successfully");
         reset();
-     if(role==="USER"){
-      router.push("/")
-     }else{
-      const {data}=responseData
-      router.push(`/verify-email?userId=${data.id}`)
-// router.push(`onboarding/${responseData.data.id}`)
+     if (role === "CUSTOMER") {
+       router.push("/");
+     } else {
+       const { data } = responseData;
+       router.push(`/verify-email?userId=${data.id}`);
+       // router.push(`onboarding/${responseData.data.id}`)
      }
         // router.push("/login");
       } else {

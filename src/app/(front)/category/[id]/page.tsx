@@ -15,12 +15,13 @@ const Category = ({ params: { id } }: { params: { id: string } }) => {
   const [products, setProducts] = useState([]);
   useEffect(() => {
     const fetchData = async () => {
-      const endpoint = `${config?.baseUrl}/categories/${id}`;
+      const endpoint = `${config?.baseUrl}/products?categoryId=${id}`;
       try {
         setLoading(true);
         const data = await getData(endpoint);
-        setCategory(data.name);
-        setProducts(data.products);
+        console.log("dat",data)
+        // setCategory(data.name);
+        setProducts(data);
       } catch (error) {
         console.error("Error fetching data", error);
       } finally {
