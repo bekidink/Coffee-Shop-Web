@@ -22,6 +22,6 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/app/(back)/dashboard/admin/categories/columns.jsx"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/app/(back)/dashboard/admin/categories/columns.jsx", "src/app/(back)/dashboard/admin/categories/page.jsx"],
   "exclude": ["node_modules"]
 }

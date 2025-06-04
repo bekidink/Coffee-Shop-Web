@@ -11,7 +11,7 @@ import {
   DropdownMenuContent,
   DropdownMenuLabel,
   DropdownMenuSeparator,
-} from "../ui/dropdown-menu"
+} from "@/components/ui/dropdown-menu"
 
 
 

@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import { UseFormRegister, useWatch } from "react-hook-form";
+import { UseFormRegister, useWatch, Control } from "react-hook-form"; // Import Control
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 
@@ -10,6 +10,7 @@ interface ToggleInputProps {
   trueTitle: string;
   falseTitle: string;
   register: UseFormRegister<any>;
+  control: Control<any>; // Add control prop
   className?: string;
 }
 
@@ -19,11 +20,12 @@ const ToggleInput: React.FC<ToggleInputProps> = ({
   trueTitle,
   falseTitle,
   register,
+  control, // Receive control prop
   className = "sm:col-span-2 flex flex-wrap",
 }) => {
   const isChecked = useWatch({
     name,
-    // control: register(name)., // Access control from register
+    control, // Use the passed control
   });
 
   return (
