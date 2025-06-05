@@ -6,12 +6,12 @@ import React from "react";
 // Define interfaces for data structures
 interface Category {
   id: string;
-  title: string;
+  name: string;
 }
 
 interface Farmer {
   id: string;
-  title: string;
+  title?: string;
   role?: string;
   name?: string;
 }
@@ -37,7 +37,7 @@ const UpdateCoupon: React.FC<UpdateCouponProps> = async ({
   const categoriesData: Category[] = await getData("categories");
   const categories: Category[] = categoriesData.map((category: Category) => ({
     id: category.id,
-    title: category.title,
+    name: category.name,
   }));
 
   const usersData: unknown = await getData("users");

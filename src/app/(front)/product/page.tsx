@@ -51,7 +51,7 @@ const Product = () => {
 
   useEffect(() => {
     if (productData) {
-      setImgUrl(productData?.images[0]);
+      setImgUrl(productData?.imageUrls[0]);
       setColor(productData?.colors[0]);
     }
   }, [productData]);
@@ -66,7 +66,7 @@ const Product = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
               <div className="flex flex-start">
                 <div>
-                  {productData?.images?.map((item, index) => (
+                  {productData?.imageUrls?.map((item, index) => (
                     <img
                       src={item}
                       alt="img"

@@ -50,7 +50,7 @@ const Product = ({ params: { id } }: { params: { id: string } }) => {
 
   useEffect(() => {
     if (productData) {
-      setImgUrl(productData?.images[0]);
+      setImgUrl(productData?.imageUrls[0]);
       setColor(productData?.colors[0]);
     }
   }, [productData]);
@@ -65,7 +65,7 @@ const Product = ({ params: { id } }: { params: { id: string } }) => {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
               <div className="flex flex-start">
                 <div>
-                  {productData?.images?.map((item, index) => (
+                  {productData?.imageUrls?.map((item, index) => (
                     <img
                       src={item}
                       alt="img"
@@ -174,7 +174,7 @@ const Product = ({ params: { id } }: { params: { id: string } }) => {
                 />
                 <div className="bg-[#f7f7f7] p-5 rounded-md flex flex-col items-center justify-center gap-2">
                   <img
-                    src={'/payment.webp'}
+                    src={"/payment.webp"}
                     alt="payment"
                     className="w-auto object-cover"
                   />

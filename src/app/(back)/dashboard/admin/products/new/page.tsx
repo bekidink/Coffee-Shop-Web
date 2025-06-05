@@ -27,12 +27,11 @@ const NewProduct = async() => {
       name: category.name,
     };
   });
-    const usersData: unknown = await getData("users");
   
     // Type guard to check if usersData is an array
-    const farmersData: Farmer[] = await getData("shops");
-   console.log("shops",farmersData)
-    const farmers: Farmer[] = farmersData.map((farmer: Farmer) => ({
+    const shopsData: Farmer[] = await getData("shops");
+   console.log("shops",shopsData)
+    const shops: Farmer[] = shopsData.map((farmer: Farmer) => ({
       id: farmer.id,
       name: farmer.name ?? "", // Use empty string as fallback if name is undefined
     }));
@@ -40,7 +39,7 @@ const NewProduct = async() => {
   return (
     <div className="">
        <FormHeader title={"New Product"}/>
-     <NewProductForm categories={categories} farmers={farmers} />
+     <NewProductForm categories={categories} farmers={shops} />
     </div>
    
   )

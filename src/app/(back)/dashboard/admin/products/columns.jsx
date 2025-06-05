@@ -22,62 +22,67 @@ import ActionColumn from "@/components/shared/datatablecolumns/ActionColumn";
 
 
 export const columns = [
-    {
-        id: "select",
-        header: ({ table }) => (
-          <Checkbox
-            checked={
-              table.getIsAllPageRowsSelected() ||
-              (table.getIsSomePageRowsSelected() && "indeterminate")
-            }
-            onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-            aria-label="Select all"
-          />
-        ),
-        cell: ({ row }) => (
-          <Checkbox
-            checked={row.getIsSelected()}
-            onCheckedChange={(value) => row.toggleSelected(!!value)}
-            aria-label="Select row"
-          />
-        ),
-        enableSorting: false,
-        enableHiding: false,
-      },
+  {
+    id: "select",
+    header: ({ table }) => (
+      <Checkbox
+        checked={
+          table.getIsAllPageRowsSelected() ||
+          (table.getIsSomePageRowsSelected() && "indeterminate")
+        }
+        onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
+        aria-label="Select all"
+      />
+    ),
+    cell: ({ row }) => (
+      <Checkbox
+        checked={row.getIsSelected()}
+        onCheckedChange={(value) => row.toggleSelected(!!value)}
+        aria-label="Select row"
+      />
+    ),
+    enableSorting: false,
+    enableHiding: false,
+  },
   {
     accessorKey: "name",
-    header: ({ column }) => (<SortableColumn column={column} title={'Title'}/>)
+    header: ({ column }) => <SortableColumn column={column} title={"Title"} />,
   },
   {
-    accessorKey: "imageUrl",
+    accessorKey: "thumbnailUrl",
     header: "Product Image",
-    cell:({row})=>(<ImageColumn row={row} imageTitle={'imageUrl'}/>)
+    cell: ({ row }) => <ImageColumn row={row} imageTitle={"thumbnailUrl"} />,
   },
-//   {
-//     accessorKey: "description",
-//     header: "Description",
-//     cell:({row})=>{
-//         const description=row.getValue('description')
-//         return <div className="line-clamp-1">
-//             {description}
-//         </div>
-//     }
-//   },
+  {
+    accessorKey: "description",
+    header: "Description",
+    cell: ({ row }) => {
+      const description = row.getValue("description");
+      return <div className="line-clamp-1">{description}</div>;
+    },
+  },
   // {
   //   accessorKey: "isActive",
   //   header: "Active",
-   
+
   // },
   {
     accessorKey: "createdAt",
     header: "Date Created",
-    cell:({row})=>(<DateColumn row={row} accessorKey={'createdAt'}/>)
+    cell: ({ row }) => <DateColumn row={row} accessorKey={"createdAt"} />,
   },
-  {id:"actions",
-  cell: ({ row }) => {
-    const product=row.original
-  return  (<ActionColumn row={row} title="Product" endpoint={`products/${product.id}`} editEndpoint={`admin/products/update/${product.id}`}/>)
-  }
+  {
+    id: "actions",
+    cell: ({ row }) => {
+      const product = row.original;
+      return (
+        <ActionColumn
+          row={row}
+          title="Product"
+          endpoint={`products/${product.id}`}
+          editEndpoint={`admin/products/update/${product.id}`}
+        />
+      );
+    },
   },
-  
-]
+];

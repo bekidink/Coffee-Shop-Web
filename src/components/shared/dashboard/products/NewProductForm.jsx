@@ -11,17 +11,22 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import MultiImageInput from "@/components/shared/Forminputs/MultiImageInput";
 import VariantsInput from "../../Forminputs/VariantsInput";
+import { useSession } from "next-auth/react";
 
 const NewProductForm = ({categories,farmers,updateData={}}) => {
-  const [variants, setVariants] = useState([]);
+  
+   const {data:session,status}=useSession()
+    const user=session?.user;
   const initialImageUrl=updateData?.imageUrl ?? ""
   const [imageUrl, setImageUrl] = useState(initialImageUrl);
   const initialtags=updateData?.tags ?? []
+  const initialvariants = updateData?.variants ?? [];
   const [loading, setLoading] = useState(false);
   const [tags, setTags] = useState(initialtags);
   const Id=updateData?.id ?? ""
-  const[productImages,setProductImages]=useState([])
-  
+  const initialImageUrls = updateData?.imageUrls ?? [];
+  const [productImages, setProductImages] = useState(initialImageUrls);
+  const [variants, setVariants] = useState(initialvariants);
   const {
     register,
     handleSubmit,
@@ -30,13 +35,11 @@ const NewProductForm = ({categories,farmers,updateData={}}) => {
     reset,
   } = useForm({
     defaultValues: {
-      isActive: true,
-      isWholesale:false,
+     
       ...updateData
     },
   });
-  const isActive = watch("isActive");
-  const isWholesale=watch("isWholesale")
+  
   const router=useRouter()
   function redirect(){
     router.push("/dashboard/admin/products")
@@ -47,7 +50,8 @@ const NewProductForm = ({categories,farmers,updateData={}}) => {
     
     data.thumbnailUrl=productImages[0]
     data.imageUrls = productImages;
-    data.variants = tags;
+    data.variants = variants;
+    data.vendorId = "fa1ec582-480d-4a32-a52c-5de008aad7e2";
     if(Id){
       makePutRequest(setLoading,`api/products/${Id}`,data,'Product',redirect)
     }else{
@@ -87,7 +91,7 @@ const NewProductForm = ({categories,farmers,updateData={}}) => {
           />
           <SelectInput
             label={"Select shop"}
-            name={"farmerId"}
+            name={"shopId"}
             register={register}
             errors={errors}
             className="w-full"
