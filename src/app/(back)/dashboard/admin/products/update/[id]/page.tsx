@@ -40,17 +40,12 @@ const UpdateCoupon: React.FC<UpdateCouponProps> = async ({
     name: category.name,
   }));
 
-  const usersData: unknown = await getData("users");
-
-  // Type guard to check if usersData is an array
-  const farmersData: Farmer[] = Array.isArray(usersData)
-    ? usersData.filter((user: Farmer) => user.role === "FARMER")
-    : [];
-
-  const farmers: Farmer[] = farmersData.map((farmer: Farmer) => ({
-    id: farmer.id,
-    title: farmer.name ?? "", // Use empty string as fallback if name is undefined
-  }));
+  const shopsData: Farmer[] = await getData("shops");
+     console.log("shops",shopsData)
+      const shops: Farmer[] = shopsData.map((farmer: Farmer) => ({
+        id: farmer.id,
+        name: farmer.name ?? "", // Use empty string as fallback if name is undefined
+      }));
 
   return (
     <div>
@@ -58,7 +53,7 @@ const UpdateCoupon: React.FC<UpdateCouponProps> = async ({
       <NewProductForm
         updateData={product}
         categories={categories}
-        farmers={farmers}
+        farmers={shops}
       />
     </div>
   );

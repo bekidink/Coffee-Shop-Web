@@ -1,25 +1,10 @@
 "use client"
 
-import { ColumnDef } from "@tanstack/react-table"
-import { MoreHorizontal } from "lucide-react"
-import { ArrowUpDown} from "lucide-react"
-import { Button } from "@/components/ui/button"
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
-// This type is used to define the shape of our data.
-// You can use a Zod schema here if you want.
 import { Checkbox } from "@/components/ui/checkbox"
-import SortableColumn from "@/components/datatablecolumns/SortableColumn"
-import ImageColumn from "@/components/datatablecolumns/ImageColumn"
-import DateColumn from "@/components/datatablecolumns/DateColumn"
-import ActionColumn from "@/components/datatablecolumns/ActionColumn"
-import Status from "@/components/datatablecolumns/Status"
+import ImageColumn from "@/components/shared/datatablecolumns/ImageColumn"
+import DateColumn from "@/components/shared/datatablecolumns/DateColumn"
+import ActionColumn from "@/components/shared/datatablecolumns/ActionColumn"
+import Status from "@/components/shared/datatablecolumns/Status"
 
 
 export const columns = [
@@ -49,31 +34,36 @@ export const columns = [
         accessorKey: "name",
         header: "Name",
       },
-  {
-    accessorKey: "email",
-    header: ({ column }) => (<SortableColumn column={column} title={'Email'}/>)
-  },
+  // {
+  //   accessorKey: "",
+  //   header: ({ column }) => (<SortableColumn column={column} title={'Email'}/>)
+  // },
   
-//   {
-//     accessorKey: "description",
-//     header: "Description",
-//     cell:({row})=>{
-//         const description=row.getValue('description')
-//         return <div className="line-clamp-1">
-//             {description}
-//         </div>
-//     }
-//   },
   {
-    accessorKey: "emailVerified",
-    header: "Email Verified",
-   
+    accessorKey: "description",
+    header: "Description",
+    cell:({row})=>{
+        const description=row.getValue('description')
+        return <div className="line-clamp-1">
+            {description}
+        </div>
+    }
   },
-  {
-    accessorKey: "role",
-    header: "Role",
+  // {
+  //   accessorKey: "emailVerified",
+  //   header: "Email Verified",
    
-  },
+  // },
+  // {
+  //   accessorKey: "role",
+  //   header: "Role",
+   
+  // },
+  // {
+  //     accessorKey: "imageUrl",
+  //     header: "Shop Image",
+  //     cell: ({ row }) => <ImageColumn row={row} imageTitle={"imageUrl"} />,
+  //   },
   {
     accessorKey: "status",
     header: "Status",
@@ -86,8 +76,15 @@ export const columns = [
   },
   {id:"actions",
   cell: ({ row }) =>{
-    const farmer=row.original 
-  return  (<ActionColumn row={row} title={'Farmer'} endpoint={`farmers/${farmer.id}`}/>)
+    const shop=row.original 
+  return (
+    <ActionColumn
+      row={row}
+      title={"Shop"}
+      endpoint={`shops/${shop.id}`}
+      editEndpoint={`admin/shop/update/${shop.id}`}
+    />
+  );
   }
   },
   

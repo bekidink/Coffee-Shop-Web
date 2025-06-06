@@ -73,7 +73,7 @@ const roles = {
     },
     {
       name: "Shops",
-      path: "/dashboard/patients",
+      path: "/dashboard/admin/shop",
       icon: Users,
     },
     {
