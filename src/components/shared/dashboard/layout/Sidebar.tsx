@@ -53,7 +53,7 @@ const roles = {
     },
     {
       name: "Promotion",
-      path: "/dashboard/promotions",
+      path: "/dashboard/admin/promotions",
       icon: Users,
     },
     {
@@ -68,7 +68,7 @@ const roles = {
     },
     {
       name: "Users",
-      path: "/dashboard/users",
+      path: "/dashboard/admin/users",
       icon: Users,
     },
     {
@@ -78,7 +78,7 @@ const roles = {
     },
     {
       name: "Orders",
-      path: "/dashboard/appointments",
+      path: "/dashboard/admin/orders",
       icon: Grid2X2,
     },
 

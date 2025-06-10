@@ -27,7 +27,7 @@ const NewFarmer: React.FC<UpdateShopProps> = async ({ params: { id } }) => {
 
   return (
     <div>
-      <FormHeader title={"New Farmer"} />
+      <FormHeader title={"New Shop"} />
       <NewShopForm vendors={vendors} data={shop}/>
     </div>
   );

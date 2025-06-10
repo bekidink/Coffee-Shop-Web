@@ -1,16 +1,14 @@
-import PageHeader from '@/components/backoffice/PageHeader'
-
+import PageHeader from '@/components/shared/dashboard/layout/PageHeader'
 import { getData } from '@/lib/getData'
 import { columns } from './columns'
-import DataTable from '@/components/data-table-components/DataTable'
-
+import DataTable from '@/components/shared/dashboard/data-table-components/DataTable'
 const page = async() => {
-  const banners=await getData("banners")
+  const banners=await getData("promotions")
   return (
     <div>
-    <PageHeader heading={"Banners"} href={"/dashboard/banners/new"} LinkTitle={"Add Banner"}/>
+    <PageHeader heading={"Promotions"} href={"/dashboard/admin/promotions/new"} LinkTitle={"Add Promotion"}/>
     <div className="py-8">
-      <DataTable data={banners} columns={columns} filterKeys={['title']} />
+      <DataTable data={banners} columns={columns} filterKeys={['type']} />
      </div>
    </div>
   )
