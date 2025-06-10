@@ -1,4 +1,5 @@
-"use client"
+"use client";
+
 import React, { useState, useEffect } from "react";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -23,7 +24,6 @@ import { Discount, Shop } from "@/types";
 import { useSession } from "next-auth/react";
 import { useForm } from "react-hook-form";
 import { makePostRequest, makePutRequest } from "@/lib/apiRequest";
-
 import { useRouter } from "next/navigation";
 
 type CreatePromotionDto = {
@@ -41,103 +41,82 @@ type CreatePromotionDto = {
 
 interface NewPromotionFormProps {
   shops: Shop[];
-  updateData?:Discount
+  updateData?: Discount;
 }
 
 const NewPromotionForm: React.FC<NewPromotionFormProps> = ({
   shops,
-  updateData
- 
+  updateData,
 }) => {
-    const {data:session,status}=useSession()
-  const [formData, setFormData] = useState<CreatePromotionDto>({
-    code: "",
-    type: "PERCENTAGE",
-    value: 0,
-    description: "",
-    startDate: "",
-    endDate: "",
-    shopId: "",
-    productId: "",
-  });
-const [loading, setLoading] = useState(false);
-const Id = updateData?.id ?? "";
+  const { data: session } = useSession();
+  const router = useRouter();
+  const [loading, setLoading] = useState(false);
   const [selectedShop, setSelectedShop] = useState<Shop | undefined>();
-  const [startDate, setStartDate] = useState<Date | undefined>();
-  const [endDate, setEndDate] = useState<Date | undefined>();
+  const Id = updateData?.id ?? "";
+
+  const [dateRange, setDateRange] = useState<{
+    from: Date | undefined;
+    to: Date | undefined;
+  }>({
+    from: updateData?.startDate ? new Date(updateData.startDate) : undefined,
+    to: updateData?.endDate ? new Date(updateData.endDate) : undefined,
+  });
+
   const {
     register,
     handleSubmit,
     setValue,
     formState: { errors },
     reset,
+    watch,
   } = useForm<CreatePromotionDto>({
-    defaultValues:{
-      shopId:updateData?.id,
-      productId:updateData?.product?.id,
-      code:updateData?.code,
-      description:updateData?.description!,
-      minOrderAmount:updateData?.minOrderAmount,
-      maxUses:updateData?.maxUses,
-      value:updateData?.value,
-      type:updateData?.type,
+    defaultValues: {
+      shopId: updateData?.shop?.id,
+      productId: updateData?.product?.id,
+      code: updateData?.code || "",
+      description: updateData?.description || "",
+      minOrderAmount: updateData?.minOrderAmount,
+      maxUses: updateData?.maxUses,
+      value: updateData?.value || 0,
+      type: updateData?.type || "PERCENTAGE",
+    },
+  });
 
-    }
-  });
-  const [dateRange, setDateRange] = useState<{
-    from: Date | undefined;
-    to: Date | undefined;
-  }>({
-    from: undefined,
-    to: undefined,
-  });
-  
+  const selectedShopId = watch("shopId");
+
   useEffect(() => {
-    const foundShop = shops.find((shop) => shop.id === formData.shopId);
+    const foundShop = shops.find((shop) => shop.id === selectedShopId);
     setSelectedShop(foundShop);
-    setFormData((prev) => ({ ...prev, productId: "" }));
-  }, [formData.shopId, shops]);
+  }, [selectedShopId, shops]);
 
-  useEffect(() => {
-    if (startDate) {
-      setFormData((prev) => ({ ...prev, startDate: startDate.toISOString() }));
-    }
-  }, [startDate]);
-
-  useEffect(() => {
-    if (endDate) {
-      setFormData((prev) => ({ ...prev, endDate: endDate.toISOString() }));
-    }
-  }, [endDate]);
-
-  const handleInputChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]:
-        name === "value" || name === "minOrderAmount" || name === "maxUses"
-          ? Number(value)
-          : value,
-    }));
+  const redirect = () => {
+    router.push("/dashboard/admin/promotions");
   };
- const router=useRouter()
-  function redirect(){
-    router.push("/dashboard/admin/products")
-  }
-  const onSubmit = async(data:any)=> {
-      setLoading(true);
-      data.startDate = dateRange.from;
-      data.endDate=dateRange.to;
-      if(Id){
-        makePutRequest(setLoading,`promotions/${Id}`,data,'Promotion',redirect)
-      }else{
-         makePostRequest(setLoading, "promotions", data, "Promotion ", reset,redirect);
-       }
-      
-      
+
+  const onSubmit = async (data: CreatePromotionDto) => {
+    setLoading(true);
+    data.startDate = dateRange.from?.toISOString() || "";
+    data.endDate = dateRange.to?.toISOString() || "";
+    if (Id) {
+      makePutRequest(
+        setLoading,
+        `promotions/${Id}`,
+        data,
+        "Promotion",
+        redirect
+      );
+    } else {
+      makePostRequest(
+        setLoading,
+        "promotions",
+        data,
+        "Promotion",
+        reset,
+        redirect
+      );
     }
+  };
+
   const formatDateRange = (range: { from?: Date; to?: Date }) => {
     const { from, to } = range;
     if (!from && !to) return "Pick date range";
@@ -145,7 +124,7 @@ const Id = updateData?.id ?? "";
     if (from && to) return `${format(from, "PPP")} — ${format(to, "PPP")}`;
     return "Pick date range";
   };
-  
+
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
@@ -154,19 +133,13 @@ const Id = updateData?.id ?? "";
       <div className="grid grid-cols-2 gap-4 mt-3">
         <div className="flex flex-col gap-y-2">
           <Label htmlFor="code">Promotion Code</Label>
-          <Input
-            id="code"
-            {...register("code", { required: true })}
-            value={formData.code}
-            onChange={handleInputChange}
-            required
-          />
+          <Input id="code" {...register("code", { required: true })} />
         </div>
 
         <div className="flex flex-col gap-y-2">
           <Label htmlFor="type">Promotion Type</Label>
           <Select
-            value={formData.type}
+            defaultValue={updateData?.type}
             onValueChange={(value) => setValue("type", value as any)}
           >
             <SelectTrigger>
@@ -180,6 +153,7 @@ const Id = updateData?.id ?? "";
           </Select>
         </div>
       </div>
+
       <div className="grid grid-cols-2 gap-4 mt-3">
         <div className="flex flex-col gap-y-2">
           <Label htmlFor="value">Value</Label>
@@ -187,22 +161,15 @@ const Id = updateData?.id ?? "";
             type="number"
             id="value"
             {...register("value", { valueAsNumber: true })}
-            value={formData.value}
-            onChange={handleInputChange}
-            required
           />
         </div>
 
         <div className="flex flex-col gap-y-2">
           <Label htmlFor="description">Description</Label>
-          <Textarea
-            id="description"
-            {...register("description")}
-            value={formData.description}
-            onChange={handleInputChange}
-          />
+          <Textarea id="description" {...register("description")} />
         </div>
       </div>
+
       <div className="grid grid-cols-2 gap-4 mt-3">
         <div className="flex flex-col gap-y-2">
           <Label>Date Range</Label>
@@ -222,8 +189,6 @@ const Id = updateData?.id ?? "";
                 selected={dateRange}
                 onSelect={(range) => {
                   setDateRange({ from: range?.from, to: range?.to });
-                  setStartDate(range?.from);
-                  setEndDate(range?.to);
                 }}
                 initialFocus
               />
@@ -238,8 +203,6 @@ const Id = updateData?.id ?? "";
               type="number"
               id="minOrderAmount"
               {...register("minOrderAmount", { valueAsNumber: true })}
-              value={formData.minOrderAmount ?? ""}
-              onChange={handleInputChange}
             />
           </div>
 
@@ -249,23 +212,17 @@ const Id = updateData?.id ?? "";
               type="number"
               id="maxUses"
               {...register("maxUses", { valueAsNumber: true })}
-              value={formData.maxUses ?? ""}
-              onChange={handleInputChange}
             />
           </div>
         </div>
       </div>
+
       <div className="grid grid-cols-2 gap-4 my-3">
         <div className="flex flex-col gap-y-2">
           <Label htmlFor="shopId">Select Shop</Label>
           <Select
-            value={formData.shopId}
-            onValueChange={(value) =>{
-              setValue("shopId", value)
-              setFormData((prev) => ({ ...prev, shopId: value }));
-            }
-              
-            }
+            defaultValue={updateData?.shop?.id}
+            onValueChange={(value) => setValue("shopId", value)}
           >
             <SelectTrigger>
               <SelectValue placeholder="Choose a shop" />
@@ -284,13 +241,8 @@ const Id = updateData?.id ?? "";
           <div className="flex flex-col gap-y-2">
             <Label htmlFor="productId">Select Product</Label>
             <Select
-              value={formData.productId ?? ""}
-              onValueChange={(value) =>{
-                setValue("productId", value);
-                setFormData((prev) => ({ ...prev, productId: value }));
-              }
-               
-              }
+              defaultValue={updateData?.product?.id}
+              onValueChange={(value) => setValue("productId", value)}
             >
               <SelectTrigger>
                 <SelectValue placeholder="Choose a product" />
@@ -307,7 +259,9 @@ const Id = updateData?.id ?? "";
         )}
       </div>
 
-      <Button type="submit">Create Promotion</Button>
+      <Button type="submit">
+        {Id ? "Update Promotion" : "Create Promotion"}
+      </Button>
     </form>
   );
 };

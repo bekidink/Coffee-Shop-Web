@@ -18,7 +18,7 @@ const user=session.data?.user
 const pathname=usePathname()
 
 const roles = {
-  ADMIN: [
+  VENDOR: [
     {
       name: "Dashboard",
       path: "/dashboard",
@@ -45,7 +45,7 @@ const roles = {
       icon: Home,
     },
   ],
-  CUSTOMER: [
+  ADMIN: [
     {
       name: "Dashboard",
       path: "/dashboard",
@@ -88,7 +88,7 @@ const roles = {
     //   icon:Settings
     // },
   ],
-  VENDOR: [
+  CUSTOMER: [
     {
       name: "Dashboard",
       path: "/dashboard",
@@ -96,23 +96,23 @@ const roles = {
     },
     {
       name: "Inventory",
-      path: "/dashboard/doctor/appointments",
+      path: "/dashboard/vendor/inventory",
       icon: AlarmClock,
     },
     {
       name: "Orders",
-      path: "/dashboard/doctor/patients",
+      path: "/dashboard/vendor/orders",
       icon: Users,
     },
 
     {
       name: "Products",
-      path: "/dashboard/doctor/inbox",
+      path: "/dashboard/vendor/products",
       icon: Mail,
     },
     {
       name: "promotions",
-      path: `/dashboard/doctor/profile/${user?.id}`,
+      path: `/dashboard/vendor/promotions`,
       icon: User2,
     },
   ],

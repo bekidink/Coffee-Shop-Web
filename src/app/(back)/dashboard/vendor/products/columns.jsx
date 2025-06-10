@@ -1,10 +1,24 @@
 "use client"
 
+import { ColumnDef } from "@tanstack/react-table"
+import { MoreHorizontal } from "lucide-react"
+import { ArrowUpDown} from "lucide-react"
+import { Button } from "@/components/ui/button"
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
+// This type is used to define the shape of our data.
+// You can use a Zod schema here if you want.
 import { Checkbox } from "@/components/ui/checkbox";
+import SortableColumn from "@/components/shared/datatablecolumns/SortableColumn";
 import ImageColumn from "@/components/shared/datatablecolumns/ImageColumn";
 import DateColumn from "@/components/shared/datatablecolumns/DateColumn";
 import ActionColumn from "@/components/shared/datatablecolumns/ActionColumn";
-import SortableColumn from "@/components/shared/datatablecolumns/SortableColumn";
 
 
 export const columns = [
@@ -31,15 +45,13 @@ export const columns = [
     enableHiding: false,
   },
   {
-    accessorKey: "type",
-    header: ({ column }) => <SortableColumn column={column} title={"title"} />,
+    accessorKey: "name",
+    header: ({ column }) => <SortableColumn column={column} title={"Title"} />,
   },
   {
-    accessorKey: "product.thumbnailUrl",
-    header: "Promotion Image",
-    cell: ({ row }) => (
-      <ImageColumn row={row} imageTitle="product.thumbnailUrl" />
-    ),
+    accessorKey: "thumbnailUrl",
+    header: "Product Image",
+    cell: ({ row }) => <ImageColumn row={row} imageTitle={"thumbnailUrl"} />,
   },
   {
     accessorKey: "description",
@@ -49,10 +61,11 @@ export const columns = [
       return <div className="line-clamp-1">{description}</div>;
     },
   },
-  {
-    accessorKey: "isActive",
-    header: "Active",
-  },
+  // {
+  //   accessorKey: "isActive",
+  //   header: "Active",
+
+  // },
   {
     accessorKey: "createdAt",
     header: "Date Created",
@@ -61,13 +74,13 @@ export const columns = [
   {
     id: "actions",
     cell: ({ row }) => {
-      const banner = row.original;
+      const product = row.original;
       return (
         <ActionColumn
           row={row}
-          title="Promotion"
-          endpoint={`promotions/${banner.id}`}
-          editEndpoint={`promotions/update/${banner.id}`}
+          title="Product"
+          endpoint={`products/${product.id}`}
+          editEndpoint={`admin/products/update/${product.id}`}
         />
       );
     },

@@ -82,7 +82,7 @@ export const columns = [
       row={row}
       title={"Shop"}
       endpoint={`shops/${shop.id}`}
-      editEndpoint={`admin/shop/update/${shop.id}`}
+      editEndpoint={`/admin/shop/update/${shop.id}`}
     />
   );
   }

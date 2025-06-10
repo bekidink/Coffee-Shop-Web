@@ -1,5 +1,4 @@
-import CustomerForm from '@/components/backoffice/CustomerForm'
-import FormHeader from '@/components/backoffice/FormHeader'
+import FormHeader from "@/components/shared/dashboard/layout/FormHeader";
 import { getData } from '@/lib/getData'
 import React from 'react'
 
@@ -8,7 +7,7 @@ export default async function page({params:{id}}) {
   return (
     <div>
       <FormHeader title={"Update Customer"}/>
-      <CustomerForm user={user}/>
+      {/* <CustomerForm user={user}/> */}
     </div>
   )
 }
