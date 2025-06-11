@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import { useEffect, useState } from "react";
 import { FaQuestionCircle } from "react-icons/fa";
 import { store } from "@/lib/store";
@@ -9,23 +9,20 @@ import FormattedPrice from "@/components/shared/common/FormattedPrice";
 import Link from "next/link";
 
 const Cart = () => {
-  const [totalAmt, setTotalAmt] = useState({ regular: 0, discounted: 0 });
+  const [totalAmt, setTotalAmt] = useState(0);
   const { cartProduct, currentUser } = store();
 
   const shippingAmt = 25;
   const taxAmt = 15;
 
   useEffect(() => {
-    const totals = cartProduct.reduce(
-      (sum, product) => {
-        sum.regular += product?.regularPrice * product?.quantity;
-        sum.discounted += product?.discountedPrice * product?.quantity;
-        return sum;
-      },
-      { regular: 0, discounted: 0 }
+    const total = cartProduct.reduce(
+      (sum, product) => sum + product.price * product.quantity,
+      0
     );
-    setTotalAmt(totals);
+    setTotalAmt(total);
   }, [cartProduct]);
+
   return (
     <Container>
       {cartProduct.length > 0 ? (
@@ -36,9 +33,12 @@ const Cart = () => {
 
           <div className="mt-10 lg:grid lg:grid-cols-12 lg:items-start lg:gap-x-12 xl:gap-x-16">
             <section className="lg:col-span-7">
-              <div className=" divide-y divide-gray-200 border-b border-t border-gray-200">
+              <div className="divide-y divide-gray-200 border-b border-t border-gray-200">
                 {cartProduct.map((product) => (
-                  <CartProduct product={product} key={product?.id} />
+                  <CartProduct
+                    product={product}
+                    key={`${product?.id}-${product?.variantId}`}
+                  />
                 ))}
               </div>
             </section>
@@ -50,13 +50,12 @@ const Cart = () => {
                 <div className="flex items-center justify-between">
                   <dt className="text-sm text-gray-600">Subtotal</dt>
                   <dd className="text-sm font-medium text-gray-900">
-                    <FormattedPrice amount={totalAmt?.regular} />
+                    <FormattedPrice amount={totalAmt} />
                   </dd>
                 </div>
                 <div className="flex items-center justify-between border-t border-gray-200 pt-4">
                   <dt className="flex items-center text-sm text-gray-600">
                     <span>Shipping estimate</span>
-
                     <FaQuestionCircle
                       className="h-5 w-5 text-gray-400 ml-2"
                       aria-hidden="true"
@@ -69,7 +68,6 @@ const Cart = () => {
                 <div className="flex items-center justify-between border-t border-gray-200 pt-4">
                   <dt className="flex text-sm text-gray-600">
                     <span>Tax estimate</span>
-
                     <FaQuestionCircle
                       className="h-5 w-5 text-gray-400 ml-2"
                       aria-hidden="true"
@@ -81,22 +79,10 @@ const Cart = () => {
                 </div>
                 <div className="flex items-center justify-between border-t border-gray-200 pt-4">
                   <dt className="text-base font-medium text-gray-900">
-                    Total Discount
-                  </dt>
-                  <dd className="text-base font-medium text-gray-500">
-                    <FormattedPrice
-                      amount={totalAmt?.regular - totalAmt?.discounted}
-                    />
-                  </dd>
-                </div>
-                <div className="flex items-center justify-between border-t border-gray-200 pt-4">
-                  <dt className="text-base font-medium text-gray-900">
                     Order total
                   </dt>
                   <dd className="text-lg font-bold text-gray-900">
-                    <FormattedPrice
-                      amount={totalAmt?.discounted + shippingAmt + taxAmt}
-                    />
+                    <FormattedPrice amount={totalAmt + shippingAmt + taxAmt} />
                   </dd>
                 </div>
               </dl>

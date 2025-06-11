@@ -38,7 +38,7 @@ const Categories = () => {
         <div className="w-full h-[1px] bg-gray-200 mt-3" />
       </div>
       <div className="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-7">
-        {categories.map((item: CategoryProps) => (
+        {categories.slice(0,6).map((item: CategoryProps) => (
           <Link
             href={`/category/${item?.id}`}
             key={item?.id}

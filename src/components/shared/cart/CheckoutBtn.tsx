@@ -2,22 +2,30 @@ import { loadStripe } from "@stripe/stripe-js";
 import { ProductProps } from "@/types";
 import { store } from "@/lib/store";
 import { config } from "@/utils/config";
+import { useSession } from "next-auth/react";
 
 const CheckoutBtn = ({ products }: { products: ProductProps[] }) => {
+   const {data:session,status}=useSession()
+    const user=session?.user;
   const { currentUser } = store();
+  // const items=products.map((item)=>({
+  //   productId:item.id,
+  //   quantity:item.
+  // }))
   const publishableKey = "";
   const stripePromise = loadStripe(publishableKey);
 
   const handleCheckout = async () => {
     const stripe = await stripePromise;
-    const response = await fetch(`${config?.baseUrl}/checkout`, {
+    const response = await fetch(`${config?.baseUrl}/orders`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
         items: products,
-        email: currentUser?.email,
+        email: user?.email,
+        customerId: user?.id,
       }),
     });
     const checkoutSession = await response?.json();
@@ -30,7 +38,7 @@ const CheckoutBtn = ({ products }: { products: ProductProps[] }) => {
   };
   return (
     <div className="mt-6">
-      {currentUser ? (
+      {user ? (
         <button
           onClick={handleCheckout}
           type="submit"

@@ -43,6 +43,7 @@ export interface ProductProps {
   createdAt: string;
   updatedAt: string;
   averageRating: number;
+  variants: Variant[];
 }
 
 export interface BlogProps {
