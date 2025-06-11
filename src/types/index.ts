@@ -15,24 +15,34 @@ export interface CategoryProps {
   base: string;
   description: string;
 }
-
+export interface ProductDetailProps {
+  id: string;
+  name: string;
+  description: string;
+  vendorId: string;
+  shopId: string;
+  categoryId: string;
+  thumbnailUrl: string;
+  imageUrls: string[];
+  stockQuantity: number;
+  createdAt: string;
+  updatedAt: string;
+  averageRating: number;
+  variants: Variant[];
+}
 export interface ProductProps {
   id: string;
-  base: string;
-  reviews: number;
-  rating: number;
-  quantity: number;
-  overView: string;
   name: string;
-  isStock: boolean;
-  isNew: boolean;
-  imageUrls: [string];
-  discountedPrice: number;
-  regularPrice: number;
   description: string;
-  colors: [string];
-  category: string;
-  brand: string;
+  vendorId: string;
+  shopId: string;
+  categoryId: string;
+  thumbnailUrl: string;
+  imageUrls: string[];
+  stockQuantity: number;
+  createdAt: string;
+  updatedAt: string;
+  averageRating: number;
 }
 
 export interface BlogProps {

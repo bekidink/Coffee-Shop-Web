@@ -1,5 +1,5 @@
 import { MdOutlineStarOutline } from "react-icons/md";
-import { ProductProps } from "@/types";
+import { ProductDetailProps, ProductProps } from "@/types";
 import AddToCartBtn from "../common/AddToCartBtn";
 import { useState } from "react";
 import {
@@ -14,7 +14,7 @@ import FormattedPrice from "../common/FormattedPrice";
 import ProductCardSideNav from "./ProductCardSideNav";
 import { useRouter } from "next/navigation";
 interface Props {
-  item: ProductProps;
+  item: ProductDetailProps;
   setSearchText?: any;
 }
 
@@ -28,8 +28,8 @@ const ProductCard = ({ item, setSearchText }: Props) => {
   const close = () => {
     setIsOpen(false);
   };
-  const percentage =
-    ((item?.regularPrice - item?.discountedPrice) / item?.regularPrice) * 100;
+  // const percentage =
+  //   ((item?.regularPrice - item?.discountedPrice) / item?.regularPrice) * 100;
 
   const handleProduct = () => {
     navigation.push(`/product/${item?.id}`);
@@ -42,7 +42,7 @@ const ProductCard = ({ item, setSearchText }: Props) => {
           onClick={open}
           className="bg-black dark:bg-white dark:text-slate-800 text-slate-50  absolute left-0 right-0 w-16 text-xs text-center py-1 rounded-md font-semibold inline-block z-10"
         >
-          save {percentage.toFixed(0)}%
+          {/* save {percentage.toFixed(0)}% */}
         </span>
         <img
           onClick={handleProduct}
@@ -54,7 +54,7 @@ const ProductCard = ({ item, setSearchText }: Props) => {
       </div>
       <div className="flex flex-col gap-2 px-2 pb-2">
         <h3 className="text-xs uppercase font-semibold text-lightText">
-          {item?.overView}
+          {/* {item?.overView} */}
         </h3>
         <h2 className="text-lg font-bold line-clamp-2">{item?.name}</h2>
         <div className="text-base text-lightText flex items-center">
@@ -92,9 +92,9 @@ const ProductCard = ({ item, setSearchText }: Props) => {
                   <p className="mt-2 text-sm/6 text-white/50">
                     You are going to save{" "}
                     <span className="text-skyText">
-                      <FormattedPrice
+                      {/* <FormattedPrice
                         amount={item?.regularPrice - item?.discountedPrice}
-                      />{" "}
+                      />{" "} */}
                     </span>
                     from this product.
                   </p>

@@ -1,56 +1,67 @@
+"use client";
 import { twMerge } from "tailwind-merge";
-import { ProductProps } from "@/types";
+import { ProductDetailProps, Variant } from "@/types";
 import { store } from "@/lib/store";
 import toast from "react-hot-toast";
 import { useEffect, useState } from "react";
 import { FaMinus, FaPlus } from "react-icons/fa";
-import PriceTag from "./PriceTag";
+import FormattedPrice from "./FormattedPrice";
 
+interface AddToCartBtnProps {
+  className?: string;
+  title?: string;
+  product?: ProductDetailProps & { selectedVariant: Variant | null };
+  showPrice?: boolean;
+}
 
 const AddToCartBtn = ({
   className,
   title,
   product,
   showPrice = true,
-}: {
-  className?: string;
-  title?: string;
-  product?: ProductProps;
-  showPrice?: boolean;
-}) => {
-  const [existingProduct, setExistingProduct] = useState<ProductProps | null>(
-    null
-  );
+}: AddToCartBtnProps) => {
+  const [existingProduct, setExistingProduct] = useState<{
+    product: ProductDetailProps;
+    variantId: string;
+    quantity: number;
+  } | null>(null);
   const { addToCart, cartProduct, decreaseQuantity } = store();
 
   useEffect(() => {
     const availableItem = cartProduct.find(
-      (item) => item?.id === product?.id
+      (item) =>
+        item?.id === product?.id &&
+        item?.variantId === product?.selectedVariant?.id
     );
-
-    setExistingProduct(availableItem || null);
+    // setExistingProduct(availableItem || null);
   }, [product, cartProduct]);
 
   const handleAddToCart = () => {
-    if (product) {
-      addToCart(product);
+    if (product && product.selectedVariant) {
+      addToCart({
+        ...product,
+        variantId: product.selectedVariant.id,
+        price: product.selectedVariant.price,
+      });
       toast.success(`${product?.name.substring(0, 10)} added successfully!`);
     } else {
-      toast.error("Product is undefined!");
+      toast.error("Please select a variant!");
     }
   };
 
   const handleDeleteProduct = () => {
     if (existingProduct) {
       if (existingProduct?.quantity > 1) {
-        decreaseQuantity(existingProduct?.id);
+        decreaseQuantity(
+          existingProduct?.product.id,
+          existingProduct?.variantId
+        );
         toast.success(
           `${product?.name.substring(0, 10)} decreased successfully`
         );
       } else {
-        toast.error("You can not decrease less than 1");
+        toast.error("You cannot decrease less than 1");
       }
-    } else {
     }
   };
 
@@ -59,34 +70,18 @@ const AddToCartBtn = ({
     className
   );
 
-  const getRegularPrice = () => {
-    if (existingProduct) {
-      if (product) {
-        return product?.regularPrice * existingProduct?.quantity;
-      }
-    } else {
-      return product?.regularPrice;
+  const getPrice = () => {
+    if (existingProduct && product?.selectedVariant) {
+      return product.selectedVariant.price * existingProduct.quantity;
     }
-  };
-
-  const getDiscountedPrice = () => {
-    if (existingProduct) {
-      if (product) {
-        return product?.discountedPrice * product?.quantity;
-      }
-    } else {
-      return product?.discountedPrice;
-    }
+    return product?.selectedVariant?.price || 0;
   };
 
   return (
     <>
-      {showPrice && (
+      {showPrice && product?.selectedVariant && (
         <div>
-          <PriceTag
-            regularPrice={getRegularPrice()}
-            discountedPrice={getDiscountedPrice()}
-          />
+          <FormattedPrice amount={getPrice()} />
         </div>
       )}
       {existingProduct ? (

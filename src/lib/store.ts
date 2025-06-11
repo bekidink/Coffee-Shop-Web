@@ -2,10 +2,12 @@ import { doc, getDoc } from "firebase/firestore";
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import { db } from "./firebase";
-import { ProductProps } from "../types";
+import { ProductDetailProps, Variant } from "../types";
 
-interface CartProduct extends ProductProps {
+interface CartProduct extends ProductDetailProps {
   quantity: number;
+  variantId: string;
+  price: number;
 }
 
 interface UserType {
@@ -24,14 +26,18 @@ interface StoreType {
   getUserInfo: (uid: any) => Promise<void>;
   // cart
   cartProduct: CartProduct[];
-  addToCart: (product: ProductProps) => Promise<void>;
-  decreaseQuantity: (productId: string) => void;
-  removeFromCart: (productId: string) => void;
+  addToCart: (
+    product: ProductDetailProps & { variantId: string; price: number }
+  ) => Promise<void>;
+  decreaseQuantity: (productId: string, variantId: string) => void;
+  removeFromCart: (productId: string, variantId?: string) => void;
   resetCart: () => void;
-  // // favorite
+  // favorite
   favoriteProduct: CartProduct[];
-  addToFavorite: (product: ProductProps) => Promise<void>;
-  removeFromFavorite: (productId: string) => void;
+  addToFavorite: (
+    product: ProductDetailProps & { variantId: string; price: number }
+  ) => Promise<void>;
+  removeFromFavorite: (productId: string, variantId?: string) => void;
   resetFavorite: () => void;
 }
 
@@ -47,6 +53,7 @@ const customStorage = {
     localStorage.removeItem(name);
   },
 };
+
 export const store = create<StoreType>()(
   persist(
     (set) => ({
@@ -70,18 +77,21 @@ export const store = create<StoreType>()(
           set({ currentUser: null, isLoading: false });
         }
       },
-      addToCart: (product: ProductProps) => {
+
+      addToCart: (
+        product: ProductDetailProps & { variantId: string; price: number }
+      ) => {
         return new Promise<void>((resolve) => {
           set((state: StoreType) => {
             const existingProduct = state.cartProduct.find(
-              (p) => p.id === product.id
+              (p) => p.id === product.id && p.variantId === product.variantId
             );
 
             if (existingProduct) {
               return {
                 cartProduct: state.cartProduct.map((p) =>
-                  p.id === product.id
-                    ? { ...p, quantity: (p.quantity || 0) + 1 }
+                  p.id === product.id && p.variantId === product.variantId
+                    ? { ...p, quantity: p.quantity + 1 }
                     : p
                 ),
               };
@@ -89,7 +99,12 @@ export const store = create<StoreType>()(
               return {
                 cartProduct: [
                   ...state.cartProduct,
-                  { ...product, quantity: 1 },
+                  {
+                    ...product,
+                    quantity: 1,
+                    variantId: product.variantId,
+                    price: product.price,
+                  },
                 ],
               };
             }
@@ -97,60 +112,87 @@ export const store = create<StoreType>()(
           resolve();
         });
       },
-      decreaseQuantity: (productId: string) => {
+
+      decreaseQuantity: (productId: string, variantId: string) => {
         set((state: StoreType) => {
           const existingProduct = state.cartProduct.find(
-            (p) => p.id === productId
+            (p) => p.id === productId && p.variantId === variantId
           );
 
           if (existingProduct) {
             return {
               cartProduct: state.cartProduct.map((p) =>
-                p.id === productId
+                p.id === productId && p.variantId === variantId
                   ? { ...p, quantity: Math.max(p.quantity - 1, 1) }
                   : p
               ),
             };
-          } else {
-            return state;
           }
+          return state;
         });
       },
-      removeFromCart: (productId: string) => {
+
+      removeFromCart: (productId: string, variantId?: string) => {
         set((state: StoreType) => ({
           cartProduct: state.cartProduct.filter(
-            (item) => item.id !== productId
+            (item) =>
+              !(
+                item.id === productId &&
+                (!variantId || item.variantId === variantId)
+              )
           ),
         }));
       },
+
       resetCart: () => {
         set({ cartProduct: [] });
       },
-      addToFavorite: (product: ProductProps) => {
+
+      addToFavorite: (
+        product: ProductDetailProps & { variantId: string; price: number }
+      ) => {
         return new Promise<void>((resolve) => {
           set((state: StoreType) => {
             const isFavorite = state.favoriteProduct.some(
-              (item) => item.id === product.id
+              (item) =>
+                item.id === product.id && item.variantId === product.variantId
             );
             return {
               favoriteProduct: isFavorite
                 ? state.favoriteProduct.filter(
-                    (item) => item.id !== product.id
+                    (item) =>
+                      !(
+                        item.id === product.id &&
+                        item.variantId === product.variantId
+                      )
                   )
-                : [...state.favoriteProduct, { ...product }],
+                : [
+                    ...state.favoriteProduct,
+                    {
+                      ...product,
+                      quantity: 1,
+                      variantId: product.variantId,
+                      price: product.price,
+                    },
+                  ],
             };
           });
           resolve();
         });
       },
 
-      removeFromFavorite: (productId: string) => {
+      removeFromFavorite: (productId: string, variantId?: string) => {
         set((state: StoreType) => ({
           favoriteProduct: state.favoriteProduct.filter(
-            (item) => item.id !== productId
+            (item) =>
+              !(
+                item.id === productId &&
+                (!variantId || item.variantId === variantId)
+              )
           ),
         }));
       },
+
       resetFavorite: () => {
         set({ favoriteProduct: [] });
       },
