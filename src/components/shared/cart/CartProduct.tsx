@@ -60,7 +60,7 @@ const CartProduct = ({ product }: { product: CartProductType }) => {
               <h2 className="text-base">{product.name.substring(0, 80)}</h2>
               <p className="text-xs">
                 Category:{" "}
-                <span className="font-medium">{product.categoryId}</span>
+                <span className="font-medium">{product.category.name}</span>
               </p>
               {selectedVariant && (
                 <p className="text-xs">

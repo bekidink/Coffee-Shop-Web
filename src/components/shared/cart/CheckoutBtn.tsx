@@ -26,7 +26,7 @@ const CheckoutBtn = ({ products }: { products: CartProduct[] }) => {
       },
       body: JSON.stringify({
         items: items,
-        email: user?.email,
+        shopId: products[0].shopId,
         customerId: user?.id,
       }),
     });

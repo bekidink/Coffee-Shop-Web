@@ -40,6 +40,15 @@ export interface ProductDetailProps {
     averageRating: number;
     status: string;
   };
+  category: {
+    id: string;
+    name: string;
+    description: string;
+    imageUrl: string;
+    parentId: string;
+    createdAt: string;
+    updatedAt: string;
+  };
 }
 export interface ProductProps {
   id: string;
@@ -65,6 +74,15 @@ export interface ProductProps {
     updatedAt: string;
     averageRating: number;
     status: string;
+  };
+  category: {
+    id: string;
+    name: string;
+    description: string;
+    imageUrl: string;
+    parentId: string;
+    createdAt: string;
+    updatedAt: string;
   };
 }
 
