@@ -42,6 +42,7 @@ const AddToCartBtn = ({
         ...product,
         variantId: product.selectedVariant.id,
         price: product.selectedVariant.price,
+        shopId:product.shop.id
       });
       toast.success(`${product?.name.substring(0, 10)} added successfully!`);
     } else {

@@ -29,6 +29,17 @@ export interface ProductDetailProps {
   updatedAt: string;
   averageRating: number;
   variants: Variant[];
+  shop: {
+    id: string;
+    name: string;
+    vendorId: string;
+    description: string;
+    imageUrl: string;
+    createdAt: string;
+    updatedAt: string;
+    averageRating: number;
+    status: string;
+  };
 }
 export interface ProductProps {
   id: string;
@@ -44,6 +55,17 @@ export interface ProductProps {
   updatedAt: string;
   averageRating: number;
   variants: Variant[];
+  shop: {
+    id: string;
+    name: string;
+    vendorId: string;
+    description: string;
+    imageUrl: string;
+    createdAt: string;
+    updatedAt: string;
+    averageRating: number;
+    status: string;
+  };
 }
 
 export interface BlogProps {

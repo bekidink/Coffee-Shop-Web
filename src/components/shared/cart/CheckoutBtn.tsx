@@ -1,40 +1,42 @@
 import { loadStripe } from "@stripe/stripe-js";
 import { ProductProps } from "@/types";
-import { store } from "@/lib/store";
+import { CartProduct, store } from "@/lib/store";
 import { config } from "@/utils/config";
 import { useSession } from "next-auth/react";
 
-const CheckoutBtn = ({ products }: { products: ProductProps[] }) => {
+const CheckoutBtn = ({ products }: { products: CartProduct[] }) => {
    const {data:session,status}=useSession()
     const user=session?.user;
   const { currentUser } = store();
-  // const items=products.map((item)=>({
-  //   productId:item.id,
-  //   quantity:item.
-  // }))
+  const items=products.map((item)=>({
+    productId:item.id,
+    quantity:item.quantity,
+    price:item.price,
+    productVariantId:item.variantId
+  }))
   const publishableKey = "";
-  const stripePromise = loadStripe(publishableKey);
+  // const stripePromise = loadStripe(publishableKey);
 
   const handleCheckout = async () => {
-    const stripe = await stripePromise;
+    // const stripe = await stripePromise;
     const response = await fetch(`${config?.baseUrl}/orders`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        items: products,
+        items: items,
         email: user?.email,
         customerId: user?.id,
       }),
     });
     const checkoutSession = await response?.json();
-    const result: any = await stripe?.redirectToCheckout({
-      sessionId: checkoutSession.id,
-    });
-    if (result.error) {
-      window.alert(result?.error?.message);
-    }
+    // const result: any = await stripe?.redirectToCheckout({
+    //   sessionId: checkoutSession.id,
+    // });
+    // if (result.error) {
+    //   window.alert(result?.error?.message);
+    // }
   };
   return (
     <div className="mt-6">

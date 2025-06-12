@@ -33,11 +33,10 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { signOut, useSession } from "next-auth/react";
 const navLinks = [
   { title: "Home", link: "/" },
-  { title: "Shop", link: "/product" },
+  { title: "Shop", link: "/shop" },
+  { title: "Categories", link: "/category" },
+  { title: "Products", link: "/product" },
   { title: "Cart", link: "/cart" },
-  { title: "Orders", link: "/orders" },
- 
- 
 ];
 
 const Header = () => {
@@ -142,7 +141,7 @@ const Header = () => {
                 {siteConfig.name}
               </span> */}
             </Link>
-            <nav className="grid gap-6 text-lg font-medium">
+            {/* <nav className="grid gap-6 text-lg font-medium">
               {navLinks.map((item, i) => {
                 return (
                   <Link
@@ -159,7 +158,7 @@ const Header = () => {
                   </Link>
                 );
               })}
-            </nav>
+            </nav> */}
           </SheetContent>
         </Sheet>
         <div className="flex w-full items-center gap-4 md:ml-auto md:gap-2 lg:gap-4">

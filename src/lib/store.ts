@@ -4,10 +4,11 @@ import { persist } from "zustand/middleware";
 import { db } from "./firebase";
 import { ProductDetailProps, Variant } from "../types";
 
-interface CartProduct extends ProductDetailProps {
+export interface CartProduct extends ProductDetailProps {
   quantity: number;
   variantId: string;
   price: number;
+  shopId:string;
 }
 
 interface UserType {
