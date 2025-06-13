@@ -1,6 +1,6 @@
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
-
+import { getSession } from "next-auth/react";
 export async function makePostRequest(
   setLoading: React.Dispatch<React.SetStateAction<boolean>>,
   endpoint: string,
@@ -11,11 +11,14 @@ export async function makePostRequest(
 ) {
   try {
     setLoading(true);
+    const session = await getSession();
+    const token = session?.user?.access_token;
     const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
     const response = await fetch(`${baseUrl}/${endpoint}`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        ...(token && { Authorization: `Bearer ${token}` }),
       },
       body: JSON.stringify(data),
     });
@@ -48,11 +51,14 @@ export async function makePutRequest(
 ) {
   try {
     setLoading(true);
+    const session = await getSession();
+    const token = session?.user?.access_token;
     const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
     const response = await fetch(`${baseUrl}/${endpoint}`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
+        ...(token && { Authorization: `Bearer ${token}` }),
       },
       body: JSON.stringify(data),
     });

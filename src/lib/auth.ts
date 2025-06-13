@@ -117,18 +117,19 @@ export const authOptions: NextAuthOptions = {
         }
       );
 
-      const dbUser = await response.json();
+      const {access_token,user:data} = await response.json();
 
-      if (!response.ok || !dbUser) {
+      if (!response.ok || !data) {
         return token; // Fallback to existing token
       }
 
       return {
-        id: dbUser.id,
-        name: dbUser.name,
-        email: dbUser.email,
-        role: dbUser.role,
-        picture: dbUser.image,
+        id: data.id,
+        name: data.name,
+        email: data.email,
+        role: data.role,
+        picture: data.image,
+        access_token
       };
     },
     session({ session, token }) {
@@ -138,6 +139,7 @@ export const authOptions: NextAuthOptions = {
         session.user.email = token.email;
         session.user.image = token.picture;
         session.user.role = token.role;
+        session.user.access_token=token.access_token
       }
       return session;
     },

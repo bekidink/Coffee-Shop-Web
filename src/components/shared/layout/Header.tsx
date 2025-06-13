@@ -249,7 +249,7 @@ const Header = () => {
               </MenuItems>
             </Transition>
           </Menu>
-          {navLinks.map(({ title, link }) => (
+          {/* {navLinks.map(({ title, link }) => (
             <Link
               href={link}
               key={title}
@@ -258,7 +258,7 @@ const Header = () => {
               {title}
               <span className="inline-flex w-full h-[1px] bg-whiteText absolute bottom-0 left-0 transform -translate-x-[105%] group-hover:translate-x-0 duration-300" />
             </Link>
-          ))}
+          ))} */}
         </Container>
       </div>
     </div>
