@@ -18,7 +18,7 @@ const user=session.data?.user
 const pathname=usePathname()
 
 const roles = {
-  CUSTOMER: [
+  ADMIN: [
     {
       name: "Dashboard",
       path: "/dashboard",
@@ -45,7 +45,7 @@ const roles = {
       icon: Home,
     },
   ],
-  ADMIN: [
+  CUSTOMER: [
     {
       name: "Dashboard",
       path: "/dashboard",
